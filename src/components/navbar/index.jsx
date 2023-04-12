@@ -157,7 +157,7 @@ const Navbar = (props) => {
                 href="https://horizon-ui.com/pro?ref=live-pro-tailwind-react"
                 className="px-full linear flex cursor-pointer items-center justify-center rounded-xl bg-brand-500 py-[11px] font-bold text-white transition duration-200 hover:bg-brand-600 hover:text-white active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:bg-brand-200"
               >
-                Buy Horizon UI PRO
+                Buy App
               </a>
               <a
                 target="blank"
@@ -210,7 +210,7 @@ const Navbar = (props) => {
               <div className="mt-3 ml-4">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
-                    👋 Hey, {userData.name}
+                    👋 Hey, {userData?.name}
                   </p>{" "}
                 </div>
               </div>
