@@ -23,7 +23,7 @@ const Navbar = (props) => {
 
   const handleLogout = async () => {
     await account.deleteSession("current").then((res) => {
-      navigate("/auth/sign-in/centered");
+      navigate("/auth/sign-in/default");
     });
   };
 

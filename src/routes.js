@@ -5,14 +5,13 @@ import {
   MdOutlineShoppingCart,
 } from 'react-icons/md';
 
-
 // Admin Imports
 import DashboardsDefault from 'views/admin/dashboards/default';
 import DashboardsRTLDefault from 'views/admin/dashboards/rtl';
 import DashboardsCarInterface from 'views/admin/dashboards/carInterface';
 import DashboardsSmartHome from 'views/admin/dashboards/smartHome';
 
-// NFT Imports
+// // NFT Imports
 import NFTMarketplace from 'views/admin/nfts/marketplace';
 import NFTPage from 'views/admin/nfts/page';
 import NFTCollection from 'views/admin/nfts/collection';
@@ -64,7 +63,8 @@ import SignUpCentered from 'views/auth/signUp/SignUpCenter.jsx';
 import SignUpDefault from 'views/auth/signUp/SignUpDefault.jsx';
 import VerificationCentered from 'views/auth/verification/VerificationCenter.jsx';
 import VerificationDefault from 'views/auth/verification/VerificationDefault.jsx';
-import Board from 'layouts/board';
+
+
 
 const routes = [
   // {
@@ -142,67 +142,51 @@ const routes = [
       },
     ],
   },
- // --- Board ---
- {
-  name: 'Boards',
-  path: '/board',
-  icon: <MdOutlineShoppingCart className="text-inherit h-5 w-5" />,
-  collapse: true,
-  items: [
-    {
-      name: 'Board1',
-      layout: '/board',
-      path: '/board1',
-      component: <div>Board 1</div>,
-      secondary: true,
-    },
-    {
-      name: 'Board2',
-      layout: '/board',
-      path: '/board2',
-      component: <div>Board 2</div>,
-      secondary: true,
-    },
-   
-  ],
-},
-  // --- NFTs ---
+  // --- Board ---
   {
-    name: 'NFTs',
-    path: '/nfts',
+    name: 'Board',
+    path: '/board',
     icon: <MdOutlineShoppingCart className="text-inherit h-5 w-5" />,
     collapse: true,
-    items: [
-      {
-        name: 'Marketplace',
-        layout: '/admin',
-        path: '/nfts/marketplace',
-        component: <NFTMarketplace />,
-        secondary: true,
-      },
-      {
-        name: 'Collection',
-        layout: '/admin',
-        path: '/nfts/collection',
-        component: <NFTCollection />,
-        secondary: true,
-      },
-      {
-        name: 'NFT Page',
-        layout: '/admin',
-        path: '/nfts/page',
-        component: <NFTPage />,
-        secondary: true,
-      },
-      {
-        name: 'Profile',
-        layout: '/admin',
-        path: '/nfts/profile',
-        component: <NFTProfile />,
-        secondary: true,
-      },
-    ],
+    items: [],
   },
+  // --- NFTs ---
+  // {
+  //   name: 'NFTs',
+  //   path: '/nfts',
+  //   icon: <MdOutlineShoppingCart className="text-inherit h-5 w-5" />,
+  //   collapse: true,
+  //   items: [
+  //     {
+  //       name: 'Marketplace',
+  //       layout: '/admin',
+  //       path: '/nfts/marketplace',
+  //       component: <NFTMarketplace />,
+  //       secondary: true,
+  //     },
+  //     {
+  //       name: 'Collection',
+  //       layout: '/admin',
+  //       path: '/nfts/collection',
+  //       component: <NFTCollection />,
+  //       secondary: true,
+  //     },
+  //     {
+  //       name: 'NFT Page',
+  //       layout: '/admin',
+  //       path: '/nfts/page',
+  //       component: <NFTPage />,
+  //       secondary: true,
+  //     },
+  //     {
+  //       name: 'Profile',
+  //       layout: '/admin',
+  //       path: '/nfts/profile',
+  //       component: <NFTProfile />,
+  //       secondary: true,
+  //     },
+  //   ],
+  // },
   // --- Main pages ---
   {
     name: 'Main Pages',

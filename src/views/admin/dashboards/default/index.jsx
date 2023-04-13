@@ -36,7 +36,9 @@ const Dashboard = () => {
   }
 
   return (
+   
     <div className="mt-3 flex h-full w-full flex-col gap-[20px] rounded-[20px] xl:flex-row">
+       {console.log(listQuery)}
       <div className="h-full w-full rounded-[20px]">
         {/* left side */}
         <div className="col-span-9 h-full w-full rounded-t-2xl xl:col-span-6">

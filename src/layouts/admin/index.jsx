@@ -125,7 +125,7 @@ export default function Admin(props) {
   }
 
   if (userQuery.isError) {
-    return navigate("/auth/sign-in/centered");
+    return navigate("/auth/sign-in/default");
   }
 
 

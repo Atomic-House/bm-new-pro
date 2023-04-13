@@ -16,7 +16,7 @@ const App = () => {
       <Route path="admin/*" element={<AdminLayout />} />
       <Route path="rtl/*" element={<RTLLayout />} />
       <Route path="board/*" element={<Board />} />
-      <Route path="/" element={<Navigate to="/admin" replace />} />
+      <Route path="/" element={<Navigate to="/board" replace />} />
     </Routes>
   );
 };

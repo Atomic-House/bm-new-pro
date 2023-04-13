@@ -11,9 +11,36 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import routes from 'routes.js';
 import Card from 'components/card';
-import {  MdSpaceDashboard } from 'react-icons/md';
+import { MdSpaceDashboard } from 'react-icons/md';
+import { useQuery } from 'react-query';
+import { getBoard } from 'hooks/hooks';
+import SingleBoard from 'layouts/board/SingleBoard';
+import { Link } from 'react-router-dom';
 
 const SidebarHorizon = ({ open, onClose, variant }) => {
+  const boardQuery = useQuery({
+    queryKey: ['boards'],
+    queryFn: getBoard,
+  });
+
+  // check if the data is available before accessing it
+  if (boardQuery.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (boardQuery.isError) {
+    return <div>Error: {boardQuery.error.message}</div>;
+  }
+
+  const data = boardQuery.data || [];
+  const boards = data.map((item) => ({
+    name: item.title,
+    layout: '/board',
+    path: `/${item.$id}`,
+    component: <SingleBoard />,
+    secondary: true,
+  }));
+
   return (
     <div
       className={`sm:none duration-175 linear fixed !z-50 min-h-full transition-all md:!z-50 lg:!z-50 xl:!z-0 ${
@@ -44,41 +71,30 @@ const SidebarHorizon = ({ open, onClose, variant }) => {
               </div>
               <div className="mb-7 mt-[58px] h-px bg-gray-200 dark:bg-white/10" />
               {/* Nav item */}
-              
+
               <ul className="ml-[10px] pt-1">
-                <Links
+                {boardQuery.isLoading ? <h2>Loading...</h2> : (
+                  <Links
                   routes={[
                     {
                       name: 'Boards',
                       path: '/board',
-                      icon: <MdSpaceDashboard className="text-inherit h-5 w-5" />,
+                      icon: (
+                        <MdSpaceDashboard className="text-inherit h-5 w-5" />
+                      ),
                       collapse: true,
-                      items: [
-                        {
-                          name: 'Board1',
-                          layout: '/board',
-                          path: '/board1',
-                          component: <div>Board 1</div>,
-                          secondary: true,
-                        },
-                        {
-                          name: 'Board2',
-                          layout: '/board',
-                          path: '/board2',
-                          component: <div>Board 2</div>,
-                          secondary: true,
-                        },
-                      
-                      ],
-                    }
-                    ]}
+                      items: boards,
+                    },
+                  ]}
                 />
+                )}
+                
               </ul>
-              <ul className="ml-[10px] pt-1">
+              
+              {/* <ul className="ml-[10px] pt-1">
                 <Links routes={routes} />
-              </ul>
+              </ul> */}
             </div>
-            
           </div>
         </Scrollbars>
       </Card>
