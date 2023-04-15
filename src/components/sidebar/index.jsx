@@ -88,7 +88,6 @@ const SidebarHorizon = ({ open, onClose, variant }) => {
                   ]}
                 />
                 )}
-                
               </ul>
               
               {/* <ul className="ml-[10px] pt-1">
