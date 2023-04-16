@@ -1,13 +1,21 @@
 import CardMenu from 'components/card/CardMenu';
 import React, { useState } from 'react';
 import Checkbox from 'components/checkbox';
-import { MdCheckCircle, MdOutlineEditRoad } from 'react-icons/md';
+import {
+  MdCheckCircle,
+  MdDeleteForever,
+  MdOutlineEditRoad,
+} from 'react-icons/md';
 import Card from 'components/card';
 import ModalCustom from 'components/modal/ModalCustom';
+import { useMutation, useQueryClient } from 'react-query';
+import { delCards } from 'hooks/hooks';
+
 
 const TaskCard = ({ cards, user, title, lid }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [nData, setNdata] = useState({});
+  const queryClient = useQueryClient();
 
   const handleClose = () => {
     setIsOpen(false);
@@ -21,8 +29,25 @@ const TaskCard = ({ cards, user, title, lid }) => {
     setNdata(newData);
     setIsOpen(true);
   };
+
+  const deleteCard = useMutation({
+    mutationFn: (id) => {
+      return delCards(id);
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries('cards');
+    },
+  });
+
+  const handleDeleteCard = (id) => {
+    deleteCard.mutate(id);
+  };
+
+ 
+
   return (
     <>
+
       <Card extra="pb-7 p-[20px]">
         {/* task header */}
         <div className="relative flex flex-row justify-between">
@@ -38,30 +63,45 @@ const TaskCard = ({ cards, user, title, lid }) => {
           <CardMenu onOpen={handleOpen} />
         </div>
 
-        {/* task content */}
+        {/* card content */}
 
-        {cards?.map((item) => (
-          <div className="h-full w-full" key={item.$id}>
-            <div className="mt-5 flex items-center justify-between p-2">
-              <div className="flex items-center justify-center gap-2">
-                <Checkbox />
+        {cards?.length ? (
+          cards?.map((item) => (
+            <div className="h-full w-full" key={item.$id}>
+              <div className="mt-5 flex items-center justify-between p-2">
+                <div className="flex items-center justify-center gap-2">
+                  <Checkbox />
+                  <div>
+                    <p className="text-base font-bold text-navy-700 dark:text-white">
+                      {item.title}
+                    </p>
+                    <p className="text-xs font-bold text-navy-700 dark:text-white">
+                      {item.url.slice(0, 20)}...
+                    </p>
+                  </div>
+                </div>
                 <div>
-                  <p className="text-base font-bold text-navy-700 dark:text-white">
-                    {item.title}
-                  </p>
-                  <p className="text-xs font-bold text-navy-700 dark:text-white">
-                    {item.url.slice(0, 20)}...
-                  </p>
+                  <button onClick={() => handleUpdateOpen(item)}>
+                    <MdOutlineEditRoad className="h-6 w-6 text-navy-700 dark:text-white" />
+                  </button>
+                  <button onClick={() => handleDeleteCard(item.$id)}>
+                    <MdDeleteForever className="h-6 w-6 text-navy-700 dark:text-white" />
+                  </button>
                 </div>
               </div>
-              <div>
-                <button onClick={() => handleUpdateOpen(item)}>
-                  <MdOutlineEditRoad className="h-6 w-6 text-navy-700 dark:text-white" />
-                </button>
-              </div>
+            </div>
+          ))
+        ) : (
+          <div className="h-full w-full">
+            <div className="mt-5 flex flex-col items-start justify-center p-2">
+              <p className="text-base mb-5 font-bold text-navy-700 dark:text-white">
+                No Cards
+              </p>
+              
+              <button type="button" onClick={handleOpen} className="px-8 py-3 font-semibold border rounded border-gray-800 text-gray-800">Add</button>
             </div>
           </div>
-        ))}
+        )}
       </Card>
       {isOpen && (
         <ModalCustom

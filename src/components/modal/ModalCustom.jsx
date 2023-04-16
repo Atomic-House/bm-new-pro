@@ -10,7 +10,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from 'react-query';
-import { ID, Permission, Query, Role } from 'appwrite';
+import { ID, Permission, Role } from 'appwrite';
 import { databases} from '../../appwrite/appConfig';
 
 const ModalCustom = ({ isOpen, onClose, lid, nData, user }) => {

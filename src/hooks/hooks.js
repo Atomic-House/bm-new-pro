@@ -31,6 +31,11 @@ export async function getCards() {
   return result.documents;
 }
 
+export async function delCards(id) {
+  const result = await databases.deleteDocument(PROJECT_ID, CARD_ID, id);
+  return result.documents;
+}
+
 export async function getUser() {
   const result = await account.get();
   return result;
