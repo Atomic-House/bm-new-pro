@@ -1,10 +1,38 @@
 import InputField from "components/fields/InputField";
 import Default from "layouts/auth/types/Default";
-import React from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Checkbox from "components/checkbox";
+import { useNavigate } from "react-router-dom";
+import { account } from "../../../appwrite/appConfig";
+import { ID } from "appwrite";
 
 function SignUpDefault() {
+  const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState("");
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Signup User
+  const signup = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    console.log(user)
+
+    try {
+      await account.create(ID.unique(),user.email, user.password);
+      setLoader(false);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+      console.log(error)
+      setLoader(false);
+    }
+  };
+
   return (
     <Default
       maincard={
@@ -30,6 +58,7 @@ function SignUpDefault() {
               <p className="text-base font-medium text-gray-600"> or </p>
               <div className="h-px w-full bg-gray-200 dark:!bg-navy-700" />
             </div>
+            {error && error}
             {/* user info */}
             <div className="mb-3 flex w-full items-center justify-center gap-4">
               <div className="w-1/2">
@@ -62,6 +91,7 @@ function SignUpDefault() {
               placeholder="mail@simmmple.com"
               id="email"
               type="email"
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
             {/* Password */}
             <InputField
@@ -71,6 +101,7 @@ function SignUpDefault() {
               placeholder="Min 8 characters"
               id="password"
               type="password"
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
             {/* Checkbox */}
             <div className="mt-4 flex items-center justify-between px-2">
@@ -88,8 +119,8 @@ function SignUpDefault() {
 
             {/* button */}
 
-            <button className="mt-4 w-full rounded-xl bg-brand-500 py-3 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
-              Create my account
+            <button onClick={signup}  className="mt-4 w-full rounded-xl bg-brand-500 py-3 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
+              {loader ? "Creating..." : "Create my account"}
             </button>
 
             <div className="mt-3">
