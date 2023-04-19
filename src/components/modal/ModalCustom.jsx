@@ -216,10 +216,7 @@ const ModalCustom = ({ isOpen, onClose, lid, nData, user }) => {
               </form>
             </div>
             <div>
-              {/* <form onSubmit={handleSubmit}>
-                <input type="text" value={url} onChange={handleUrlChange} />
-                <button type="submit">Fetch data</button>
-              </form> */}
+            
 
 {/*               
               <h1>{metadata.title}</h1>
