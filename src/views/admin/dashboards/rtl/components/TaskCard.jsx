@@ -68,19 +68,19 @@ const TaskCard = ({ cards, user, title, lid }) => {
         {cards?.length ? (
           cards?.map((item) => (
             <div className="h-full w-full" key={item.$id}>
-              <div className="mt-5 flex items-center justify-between p-2">
-                <div className="flex items-center justify-center gap-2">
-                  <Checkbox />
+              <div className="mt-5 flex items-center justify-between p-2 hover:border-2 rounded-md">
+                <div className="flex items-center justify-center gap-2 ">
+                <img className='w-10 rounded-full border-blue-400 bg-gray-200 p-2' src={`${item.icon}`} alt="" />
                   <div>
                     <p className="text-base font-bold text-navy-700 dark:text-white">
-                      {item.title}
+                      {item.title.slice(0, 20)}...
                     </p>
                     <p className="text-xs font-bold text-navy-700 dark:text-white">
                       {item.url.slice(0, 20)}...
                     </p>
                   </div>
                 </div>
-                <div>
+                <div className='flex justify-center items-center'>
                   <button onClick={() => handleUpdateOpen(item)}>
                     <MdOutlineEditRoad className="h-6 w-6 text-navy-700 dark:text-white" />
                   </button>

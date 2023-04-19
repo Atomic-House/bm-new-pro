@@ -1,5 +1,7 @@
 import { ID, Permission, Query, Role } from 'appwrite';
 import { account, databases, id } from '../appwrite/appConfig';
+import axios from 'axios';
+import { useState } from 'react';
 
 const PROJECT_ID = '641f1b21bd099595d29a';
 const LISTS_ID = '641f1be970ce133dfc0e';
@@ -41,6 +43,53 @@ export async function getUser() {
   return result;
 }
 
+
+
+export function useMetadataFetcher() {
+  const your_api_key = "15b0e2f3fb727cf97044f566b763f141";
+  const [metadata, setMetadata] = useState({ title: '', description: '', image: '' });
+  const [favicon, setFavicon] = useState('');
+  const [error, setError] = useState('');
+  const [fetching, setFetching] = useState(false);
+
+  const fetchMetadata = async (url) => {
+    setFetching(true);
+    try {
+      const isValidUrl = url;
+      if (!isValidUrl) {
+        setError('Please enter a valid URL');
+        return;
+      }
+
+      const { data } = await axios.get('https://api.linkpreview.net', {
+        params: {
+          q: url,
+          key: your_api_key,
+        }
+      });
+
+      const domain = new URL(data.url).hostname;
+      const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+
+      setMetadata({
+        title: data.title,
+        description: data.description,
+        image: data.image
+      });
+
+      setFavicon(faviconUrl);
+      setError('');
+      setFetching(false);
+    } catch (err) {
+      setError('An error occurred while fetching the metadata');
+      setMetadata({ title: '', description: '', image: '' });
+      setFavicon('');
+      setFetching(false);
+    }
+  };
+
+  return { metadata, favicon, error, fetchMetadata, fetching };
+}
 
 
 /**
