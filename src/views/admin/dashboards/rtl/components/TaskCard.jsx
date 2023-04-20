@@ -1,6 +1,5 @@
 import CardMenu from 'components/card/CardMenu';
 import React, { useState } from 'react';
-import Checkbox from 'components/checkbox';
 import {
   MdCheckCircle,
   MdDeleteForever,
@@ -67,7 +66,7 @@ const TaskCard = ({ cards, user, title, lid }) => {
 
         {cards?.length ? (
           cards?.map((item) => (
-            <div className="h-full w-full" key={item.$id}>
+            <div className="h-full w-full group" key={item.$id}  >
               <div className="mt-5 flex items-center justify-between p-2 hover:border-2 rounded-md">
                 <div className="flex items-center justify-center gap-2 ">
                 <img className='w-10 rounded-full border-blue-400 bg-gray-200 p-2' src={`${item.icon}`} alt="" />
@@ -80,12 +79,12 @@ const TaskCard = ({ cards, user, title, lid }) => {
                     </p>
                   </div>
                 </div>
-                <div className='flex justify-center items-center'>
+                <div className=' justify-center items-center hidden group-hover:block hover:transition-all'>
                   <button onClick={() => handleUpdateOpen(item)}>
-                    <MdOutlineEditRoad className="h-6 w-6 text-navy-700 dark:text-white" />
+                    <MdOutlineEditRoad className="h-6 w-6 text-navy-700 dark:text-white hover:text-brand-500" />
                   </button>
                   <button onClick={() => handleDeleteCard(item.$id)}>
-                    <MdDeleteForever className="h-6 w-6 text-navy-700 dark:text-white" />
+                    <MdDeleteForever className="h-6 w-6 text-navy-700 dark:text-white hover:text-brand-500" />
                   </button>
                 </div>
               </div>

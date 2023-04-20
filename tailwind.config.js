@@ -4,6 +4,7 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      display: ["group-hover"],
       width: {
         "1p": "1%",
         "2p": "2%",
