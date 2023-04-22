@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { delCards } from 'hooks/hooks';
 
 
-const TaskCard = ({ cards, user, title, lid }) => {
+const TaskCard = ({ cards, user, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [nData, setNdata] = useState({});
   const queryClient = useQueryClient();
@@ -30,16 +30,16 @@ const TaskCard = ({ cards, user, title, lid }) => {
   };
 
   const deleteCard = useMutation({
-    mutationFn: (id) => {
-      return delCards(id);
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries('cards');
-    },
+    // mutationFn: (id) => {
+    //   return delCards(id);
+    // },
+    // onSuccess: async () => {
+    //   queryClient.invalidateQueries('cards');
+    // },
   });
 
   const handleDeleteCard = (id) => {
-    deleteCard.mutate(id);
+    // deleteCard.mutate(id);
   };
 
  
@@ -66,16 +66,16 @@ const TaskCard = ({ cards, user, title, lid }) => {
 
         {cards?.length ? (
           cards?.map((item) => (
-            <div className="h-full w-full group" key={item.$id}  >
+            <div className="h-full w-full group" key={item?.$id}  >
               <div className="mt-5 flex items-center justify-between p-2 hover:border-2 rounded-md">
                 <div className="flex items-center justify-center gap-2 ">
-                <img className='w-10 rounded-full border-blue-400 bg-gray-200 p-2' src={`${item.icon}`} alt="" />
+                <img className='w-10 rounded-full border-blue-400 bg-gray-200 p-2' src={`${item?.icon}`} alt="" />
                   <div>
                     <p className="text-base font-bold text-navy-700 dark:text-white">
-                      {item.title.slice(0, 20)}...
+                      {item?.title?.slice(0, 20)}...
                     </p>
                     <p className="text-xs font-bold text-navy-700 dark:text-white">
-                      {item.url.slice(0, 20)}...
+                      {item?.url?.slice(0, 20)}...
                     </p>
                   </div>
                 </div>
@@ -83,7 +83,7 @@ const TaskCard = ({ cards, user, title, lid }) => {
                   <button onClick={() => handleUpdateOpen(item)}>
                     <MdOutlineEditRoad className="h-6 w-6 text-navy-700 dark:text-white hover:text-brand-500" />
                   </button>
-                  <button onClick={() => handleDeleteCard(item.$id)}>
+                  <button onClick={() => handleDeleteCard(item?.$id)}>
                     <MdDeleteForever className="h-6 w-6 text-navy-700 dark:text-white hover:text-brand-500" />
                   </button>
                 </div>
@@ -104,7 +104,6 @@ const TaskCard = ({ cards, user, title, lid }) => {
       </Card>
       {isOpen && (
         <ModalCustom
-          lid={lid}
           onClose={handleClose}
           isOpen={isOpen}
           user={user}

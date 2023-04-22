@@ -13,33 +13,49 @@ import routes from 'routes.js';
 import Card from 'components/card';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { useQuery } from 'react-query';
-import { getBoard } from 'hooks/hooks';
 import SingleBoard from 'layouts/board/SingleBoard';
-import { Link } from 'react-router-dom';
+import { getWorkspace } from 'hooks/hooks';
+import { useState } from 'react';
 
 const SidebarHorizon = ({ open, onClose, variant }) => {
-  const boardQuery = useQuery({
-    queryKey: ['boards'],
-    queryFn: getBoard,
+
+  const workspaceQuery = useQuery({
+    queryKey: ['workspace'],
+    queryFn: getWorkspace,
   });
 
   // check if the data is available before accessing it
-  if (boardQuery.isLoading) {
+  if (workspaceQuery.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (boardQuery.isError) {
-    return <div>Error: {boardQuery.error.message}</div>;
+  if (workspaceQuery.isError) {
+    return <div>Error: {workspaceQuery.error.message}</div>;
   }
 
-  const data = boardQuery.data || [];
-  const boards = data.map((item) => ({
-    name: item.title,
-    layout: '/board',
-    path: `/${item.$id}`,
-    component: <SingleBoard />,
-    secondary: true,
+  const data = workspaceQuery.data || [];
+
+  const workspaces = data.map((subitem) => ({
+    id: subitem.$id,
+    title: subitem.title,
   }));
+
+  const [selectedWorkspace, setSelectedWorkspace] = useState(workspaces[0].id);
+
+  const handleWorkspaceChange = (event) => {
+    setSelectedWorkspace(event.target.value);
+  };
+
+  const boards = data
+    .find((workspace) => workspace.$id === selectedWorkspace)
+    ?.bS.map((board) => ({
+      name: board.title,
+      layout: '/board',
+      path: `/${board.$id}`,
+      component: <SingleBoard />,
+      secondary: true,
+    }));
+
 
   return (
     <div
@@ -73,26 +89,50 @@ const SidebarHorizon = ({ open, onClose, variant }) => {
               {/* Nav item */}
 
               <ul className="ml-[10px] pt-1">
-                {boardQuery.isLoading ? <h2>Loading...</h2> : (
+                {workspaceQuery.isLoading ? (
+                  <h2>Loading...</h2>
+                ) : (
                   <Links
-                  routes={[
-                    {
-                      name: 'Boards',
-                      path: '/board',
-                      icon: (
-                        <MdSpaceDashboard className="text-inherit h-5 w-5" />
-                      ),
-                      collapse: true,
-                      items: boards,
-                    },
-                  ]}
-                />
+                    routes={[
+                      {
+                        name: 'Boards',
+                        path: '/board',
+                        icon: (
+                          <MdSpaceDashboard className="text-inherit h-5 w-5" />
+                        ),
+                        collapse: true,
+                        items: boards,
+                      },
+                    ]}
+                  />
                 )}
               </ul>
-              
-              {/* <ul className="ml-[10px] pt-1">
-                <Links routes={routes} />
-              </ul> */}
+
+              <div className="ml-[10px] flex w-36 flex-col pt-1">
+                <div>
+                  <div className="align-center flex w-full justify-center">
+                    <div className="flex items-center justify-center pr-3">
+                      <MdSpaceDashboard className="text-inherit h-5 w-5" />
+                    </div>
+                    <p className="mr-auto font-medium text-gray-600">
+                      Worksapce
+                    </p>
+                  </div>
+                </div>
+                <select
+                  className="block w-full rounded-md px-4 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  id="workspace-select"
+                  value={selectedWorkspace}
+                  onChange={handleWorkspaceChange}
+                >
+                  {workspaces.map((workspace) => (
+                    <option key={workspace.id} value={workspace.id}>
+                      {workspace.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+             
             </div>
           </div>
         </Scrollbars>

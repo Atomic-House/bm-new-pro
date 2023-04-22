@@ -14,6 +14,7 @@ import routes from 'routes.js';
 import { useQuery } from 'react-query';
 import { getUser } from 'hooks/hooks';
 import SingleBoard from './SingleBoard';
+import RelationTry from './RelationTry';
 
 const Board = () => {
   const [open, setOpen] = React.useState(true);
@@ -171,8 +172,17 @@ const Board = () => {
                 path="/"
                 element={<Navigate to="/board" replace />}
               />
+              <Route
+                path="relation"
+                element={ <RelationTry/>}
+              />
             </Routes>
+
+            <div className='pt-5'>
+             
             </div>
+            </div>
+           
             <div className="p-3">
               <Footer />
             </div>
@@ -184,3 +194,4 @@ const Board = () => {
 };
 
 export default Board;
+

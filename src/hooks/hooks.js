@@ -3,13 +3,18 @@ import { account, databases, id } from '../appwrite/appConfig';
 import axios from 'axios';
 import { useState } from 'react';
 
-const PROJECT_ID = '641f1b21bd099595d29a';
-const LISTS_ID = '641f1be970ce133dfc0e';
-const CARD_ID = '641f1c0d4111fceddcc2';
-const BOARD_ID = '641f1b9f910470b57a64';
+const PROJECT_ID = '64415eb6ac34bc0a9996';
+const LISTS_ID = '64415ece7bb6d4c4f985';
+const CARD_ID = '64415ed2d54470c01f7f';
+const BOARD_ID = '64415ec99997abcbc0c1';
+const WORKSPACE_ID = '64415ec33e2564329aec';
 
-export async function getBoard() {
-  const result = await databases.listDocuments(PROJECT_ID, BOARD_ID);
+export async function getWorkspace() {
+  const result = await databases.listDocuments(PROJECT_ID, WORKSPACE_ID);
+  return result.documents;
+}
+export async function getBoard(boardID) {
+  const result = await databases.listDocuments(PROJECT_ID, BOARD_ID, [Query.equal('$id', boardID)]);
   return result.documents;
 }
 
